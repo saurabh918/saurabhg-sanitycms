@@ -2,37 +2,67 @@
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.wrapper {
+  width: 90%;
+  margin: 0 auto;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+ul.navbar li {
+  list-style: none;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+ul.navbar li {
+  color: #000;
+}
+
+ul.blog-list {
   display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  flex-wrap: wrap;
 }
 
-.App-link {
-  color: #61dafb;
+ul.blog-list h2 {
+  font-size: 20px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+ul.blog-list li {
+  flex-basis: 33%;
+}
+
+.blog-info {
+  display: flex;
+  column-gap: 30px;
+}
+
+.blog-info img {
+  margin-top: 2%;
+}
+
+.view-details {
+  padding: 5px 10px;
+  margin-top: 10px;
+  display: block;
+  background-color: #a52a2a;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+}
+
+.view-details:hover {
+  background-color: #fff;
+  color: #a52a2a;
+  border: 1px solid #a52a2a;
+}
+
+footer .wrapper {
+  text-align: center;
+}
+
+@media only screen and (max-width: 1024px) {
+  .blog-info {
+    flex-direction: column;
   }
-  to {
-    transform: rotate(360deg);
+
+  .blog-info img {
+    width: auto;
   }
 }
