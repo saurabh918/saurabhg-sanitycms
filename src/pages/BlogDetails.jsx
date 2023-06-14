@@ -22,6 +22,7 @@ const BlogDetails = () => {
       slug,
       publishedAt,
       body,
+      bodySection2,
       mainImage{
         asset->{
           _id,
@@ -43,6 +44,7 @@ const BlogDetails = () => {
       <img src={blogDetail.mainImage.asset.url} width="500px" height="300px" alt={blogDetail.title} />
       <BlockContent blocks={blogDetail.body} projectId="xkq07yg2" dataset="production"/>
       </div>
+      <BlockContent blocks={blogDetail.bodySection2} projectId="xkq07yg2" dataset="production"/>
       <h3>{new Date(blogDetail.publishedAt).toLocaleString()}</h3>
     </>
   )
