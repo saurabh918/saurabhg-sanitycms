@@ -42,9 +42,9 @@ const BlogDetails = () => {
       <h2>{blogDetail.title}</h2>
       <div className='blog-info'>
       <img src={blogDetail.mainImage.asset.url} width="500px" height="300px" alt={blogDetail.title} />
-      <BlockContent blocks={blogDetail.body} projectId="xkq07yg2" dataset="production"/>
+      <BlockContent blocks={blogDetail.body} projectId={process.env.REACT_APP_PROJECT_ID} dataset={process.env.REACT_APP_DATASET}/>
       </div>
-      <BlockContent blocks={blogDetail.bodySection2} projectId="xkq07yg2" dataset="production"/>
+      <BlockContent blocks={blogDetail.bodySection2} projectId={process.env.REACT_APP_PROJECT_ID} dataset={process.env.REACT_APP_DATASET}/>
       <h3>{new Date(blogDetail.publishedAt).toLocaleString()}</h3>
     </>
   )
