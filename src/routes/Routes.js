@@ -5,6 +5,7 @@ import { Routes, Route} from 'react-router-dom'
 // importing components
 import Blogs from '../pages/Blogs'
 import BlogDetails from '../pages/BlogDetails'
+import AuthorDetails from '../pages/AuthorDetails'
  
 const RoutesComponent  = () => {
   return (
@@ -13,6 +14,7 @@ const RoutesComponent  = () => {
         <Route>
         <Route exact path="/" element={<Blogs />} />
         <Route exact path="/blog-details/:slug" element={<BlogDetails />} />
+        <Route exact path="/author/:authorId" element={<AuthorDetails />} />
         </Route>
       </Routes>
     </>

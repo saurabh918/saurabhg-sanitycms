@@ -24,6 +24,9 @@ const Blogs = () => {
       categories->{
         title
       },
+      author->{
+        name
+      },
       mainImage{
         asset->{
           _id,
@@ -39,6 +42,9 @@ const Blogs = () => {
         publishedAt,
         body,
         categories->{
+          title
+        },
+        author->{
           title
         },
         mainImage{
@@ -59,6 +65,10 @@ const Blogs = () => {
         categories->{
           title
         },
+        author->{
+          title
+        },
+
         mainImage{
           asset->{
             _id,
@@ -106,6 +116,7 @@ const Blogs = () => {
               <img src={blog.mainImage.asset.url} alt={blog.title} width='300px' height='200px' />
               {blog.categories && <h3 key={blog.categories._ref}>Category: {blog.categories.title}</h3>
               }
+               {blog.author &&  <p>Published by: <Link to={`/author/${blog.author._id}`}>{blog.author.name}</Link></p>}
               <Link to={`/blog-details/${blog.slug.current}`}>
                 <button className='view-details'>View Details</button>
               </Link>
