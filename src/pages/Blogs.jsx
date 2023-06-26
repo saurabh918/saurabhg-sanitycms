@@ -25,6 +25,7 @@ const Blogs = () => {
         title
       },
       author->{
+        _id,
         name
       },
       mainImage{
@@ -45,7 +46,7 @@ const Blogs = () => {
           title
         },
         author->{
-          title
+          name
         },
         mainImage{
           asset->{
@@ -63,7 +64,7 @@ const Blogs = () => {
         publishedAt,
         body,
         categories->{
-          title
+          name
         },
         author->{
           title
