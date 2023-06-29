@@ -2,12 +2,16 @@ import React, { useEffect, useState } from 'react';
 import client from '../client';
 import BlockContent from '@sanity/block-content-to-react';
 import { useParams } from 'react-router-dom';
+import { TwitterShareButton, FacebookShareButton, LinkedinShareButton } from 'react-share';
+import { FaTwitter, FaFacebook, FaLinkedin } from 'react-icons/fa';
 
 const BlogDetails = () => {
   const [blogDetail, setBlogDetail] = useState(null);
   const [relatedPosts, setRelatedPosts] = useState([]);
 
   const { slug } = useParams();
+
+  const blogUrl = `https://example.com/blog/${slug}`;
 
   useEffect(() => {
     client
@@ -58,7 +62,22 @@ const BlogDetails = () => {
       <BlockContent blocks={blogDetail.bodySection2} projectId="xkq07yg2" dataset="production" />
       <h3>{new Date(blogDetail.publishedAt).toLocaleString()}</h3>
 
-      <h4>Related Posts:</h4>
+      <div>
+        <h3>Share the blog:</h3>
+        <TwitterShareButton url={blogUrl}>
+          <FaTwitter size={32} />
+        </TwitterShareButton>
+
+        <FacebookShareButton url={blogUrl}>
+          <FaFacebook size={32} />
+        </FacebookShareButton>
+
+        <LinkedinShareButton url={blogUrl}>
+          <FaLinkedin size={32} />
+        </LinkedinShareButton>
+      </div>
+
+      <h4>Related Blogs:</h4>
       {relatedPosts.length > 0 ? (
         <ul>
           {relatedPosts.map((post) => (
@@ -68,7 +87,7 @@ const BlogDetails = () => {
           ))}
         </ul>
       ) : (
-        <p>No related posts found.</p>
+        <p>No related blogs found.</p>
       )}
     </>
   );
