@@ -114,7 +114,7 @@ const Blogs = () => {
           blogs.map((blog) => (
             <li key={blog.slug.current}>
               <h2>{blog.title}</h2>
-              <img src={blog.mainImage.asset.url} alt={blog.title} width='300px' height='200px' />
+              { blog.mainImage.asset.url && <img src={blog.mainImage.asset.url} alt={blog.title} width='300px' height='200px' />}
               {blog.categories && <h3 key={blog.categories._ref}>Category: {blog.categories.title}</h3>
               }
                {blog.author &&  <p>Published by: <Link to={`/author/${blog.author._id}`}>{blog.author.name}</Link></p>}

@@ -1,9 +1,16 @@
 import React, { useEffect, useState } from 'react';
-import client from '../client';
+import SanityClient from '@sanity/client';
 import BlockContent from '@sanity/block-content-to-react';
 import { useParams } from 'react-router-dom';
 import { TwitterShareButton, FacebookShareButton, LinkedinShareButton } from 'react-share';
 import { FaTwitter, FaFacebook, FaLinkedin } from 'react-icons/fa';
+
+const client = SanityClient({
+  projectId: 'xkq07yg2',
+  dataset: 'production',
+  token: 'sk9RzfvlAbdRkVkzWKYHLiJYHSITFRiXduR9YWF5m9A7VLF9YseSEbJ4XYaWnAuM7kDi5kOLk2L5KEaknVhXGugfCs9GBQi5J0GpTPpgVQOODNEDnWU4I9NLEe6p8OpQyX7nsMUaRV9cajwURn0KggyM0BmOhI5s630iS4tbUddihWf8Xylw',
+  useCdn: true,
+});
 
 const BlogDetails = () => {
   const [blogDetail, setBlogDetail] = useState(null);
@@ -11,6 +18,7 @@ const BlogDetails = () => {
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [content, setContent] = useState('');
+  const [comments, setComments] = useState([]);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -94,6 +102,23 @@ const BlogDetails = () => {
     }
   }, [slug, blogDetail]);
 
+  useEffect(() => {
+    // Fetch comments for the specific blog post
+    if (blogDetail && blogDetail._id) {
+      client
+        .fetch(
+          `*[_type == "comment" && post._ref == "${blogDetail._id}"]{
+            _id,
+            name,
+            email,
+            content
+          }`
+        )
+        .then((data) => {console.log("data",data);setComments(data)})
+        .catch(console.error);
+    }
+  }, [blogDetail]);
+
   if (!blogDetail) return <div>Loading...</div>;
 
   return (
@@ -127,6 +152,22 @@ const BlogDetails = () => {
         <textarea value={content} onChange={handleContentChange} placeholder="Your Comment" required></textarea>
         <button type="submit">Submit Comment</button>
       </form>
+
+        <div>
+    <h3>Comments:</h3>
+    {comments.length > 0 ? (
+      <ul>
+        {comments.map((comment) => (
+          <li key={comment._id}>
+            <h4>{comment.name}</h4>
+            <p>{comment.content}</p>
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p>No comments yet.</p>
+    )}
+  </div>
 
       <h4>Related Blogs:</h4>
       {relatedPosts.length > 0 ? (
