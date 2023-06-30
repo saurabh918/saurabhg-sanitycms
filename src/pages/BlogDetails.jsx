@@ -8,6 +8,50 @@ import { FaTwitter, FaFacebook, FaLinkedin } from 'react-icons/fa';
 const BlogDetails = () => {
   const [blogDetail, setBlogDetail] = useState(null);
   const [relatedPosts, setRelatedPosts] = useState([]);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [content, setContent] = useState('');
+
+  const handleNameChange = (e) => {
+    setName(e.target.value);
+  };
+
+  const handleEmailChange = (e) => {
+    setEmail(e.target.value);
+  };
+
+  const handleContentChange = (e) => {
+    setContent(e.target.value);
+  };
+
+  const handleCommentSubmit = (e) => {
+    e.preventDefault();
+
+    const commentData = {
+      _type: 'comment',
+      name,
+      email,
+      content,
+      blog: {
+        _type: 'reference',
+        _ref: blogDetail._id,
+      },
+    };
+
+    client
+      .create(commentData)
+      .then((comment) => {
+        console.log('Comment created:', comment);
+        // Reset the form fields
+        setName('');
+        setEmail('');
+        setContent('');
+      })
+      .catch((error) => {
+        console.error('Error creating comment:', error);
+      });
+  };
+
 
   const { slug } = useParams();
 
@@ -76,6 +120,13 @@ const BlogDetails = () => {
           <FaLinkedin size={32} />
         </LinkedinShareButton>
       </div>
+
+      <form onSubmit={handleCommentSubmit}>
+        <input type="text" value={name} onChange={handleNameChange} placeholder="Your Name" required />
+        <input type="email" value={email} onChange={handleEmailChange} placeholder="Your Email" required />
+        <textarea value={content} onChange={handleContentChange} placeholder="Your Comment" required></textarea>
+        <button type="submit">Submit Comment</button>
+      </form>
 
       <h4>Related Blogs:</h4>
       {relatedPosts.length > 0 ? (

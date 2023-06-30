@@ -124,8 +124,8 @@ const Blogs = () => {
             </li>
           ))}
       </ul>
-      <Link to="/metadata-form">
-        <button>Go to Metadata Form</button>
+      <Link to="/blog-form">
+        <button>Add your blog</button>
       </Link>
     </div>
   );
