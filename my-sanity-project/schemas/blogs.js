@@ -40,6 +40,12 @@ export default defineType({
       to: [{ type: 'author' }],
     }),
     defineField({
+      name: 'comment',
+      title: 'Comment',
+      type: 'reference',
+      to: [{ type: 'comment' }],
+    }),
+    defineField({
       name: 'publishedAt',
       title: 'Published at',
       type: 'datetime',

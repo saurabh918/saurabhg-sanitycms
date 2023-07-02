@@ -20,6 +20,8 @@ const BlogDetails = () => {
   const [content, setContent] = useState('');
   const [comments, setComments] = useState([]);
 
+  console.log("rendered")
+
   const handleNameChange = (e) => {
     setName(e.target.value);
   };
@@ -100,22 +102,26 @@ const BlogDetails = () => {
         .then((data) => setRelatedPosts(data))
         .catch(console.error);
     }
-  }, [slug, blogDetail]);
+  }, [slug]);
 
   useEffect(() => {
     // Fetch comments for the specific blog post
-    if (blogDetail && blogDetail._id) {
-      client
-        .fetch(
-          `*[_type == "comment" && post._ref == "${blogDetail._id}"]{
-            _id,
-            name,
-            email,
-            content
-          }`
-        )
-        .then((data) => {console.log("data",data);setComments(data)})
-        .catch(console.error);
+    if (blogDetail) {
+        console.log("entered if")
+        client
+            .fetch(
+              `*[_type == "comment" && blog->_ref == "${blogDetail._id}"]{
+                _id,
+                name,
+                email,
+                content
+              }`
+            )
+            .then((data) => {
+              console.log("data", data);
+              setComments(data);
+            })
+            .catch(console.error);
     }
   }, [blogDetail]);
 
