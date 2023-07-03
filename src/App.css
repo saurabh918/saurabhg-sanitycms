@@ -57,6 +57,20 @@ footer .wrapper {
   text-align: center;
 }
 
+.hotspot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: red;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.hotspot:hover {
+  background-color: orange;
+  box-shadow: 0 0 5px rgba(255, 165, 0, 0.5);
+}
+
 @media only screen and (max-width: 1024px) {
   .blog-info {
     flex-direction: column;

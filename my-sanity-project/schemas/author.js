@@ -1,4 +1,5 @@
 import { defineField, defineType } from 'sanity';
+import { hotspotSchema } from './hotspot'
 
 export default defineType({
   name: 'author',
@@ -21,6 +22,17 @@ export default defineType({
       type: 'image',
       options: {
         hotspot: true,
+      },
+    }),
+    defineField({
+      name: 'hotspots',
+      title: 'Hotspots',
+      type: 'array',
+      of: [hotspotSchema],
+      options: {
+        imageHotspot: {
+          imagePath: 'mainImage',
+        },
       },
     }),
   ],
