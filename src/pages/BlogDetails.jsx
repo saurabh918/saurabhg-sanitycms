@@ -9,7 +9,7 @@ const client = SanityClient({
   projectId: 'xkq07yg2',
   dataset: 'production',
   token: 'sk9RzfvlAbdRkVkzWKYHLiJYHSITFRiXduR9YWF5m9A7VLF9YseSEbJ4XYaWnAuM7kDi5kOLk2L5KEaknVhXGugfCs9GBQi5J0GpTPpgVQOODNEDnWU4I9NLEe6p8OpQyX7nsMUaRV9cajwURn0KggyM0BmOhI5s630iS4tbUddihWf8Xylw',
-  useCdn: true,
+  // useCdn: true,
 });
 
 const BlogDetails = () => {
@@ -19,8 +19,7 @@ const BlogDetails = () => {
   const [email, setEmail] = useState('');
   const [content, setContent] = useState('');
   const [comments, setComments] = useState([]);
-
-  console.log("rendered")
+  const [isLoadingComments, setIsLoadingComments] = useState(true);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -37,6 +36,11 @@ const BlogDetails = () => {
   const handleCommentSubmit = (e) => {
     e.preventDefault();
 
+    if (!blogDetail) {
+      setIsLoadingComments(true)
+      return;
+    }  
+
     const commentData = {
       _type: 'comment',
       name,
@@ -48,10 +52,13 @@ const BlogDetails = () => {
       },
     };
 
+    console.log("comment-data", commentData)
+
     client
       .create(commentData)
       .then((comment) => {
         console.log('Comment created:', comment);
+        setComments((prevComments) => [...prevComments, comment]);
         // Reset the form fields
         setName('');
         setEmail('');
@@ -71,6 +78,7 @@ const BlogDetails = () => {
     client
       .fetch(
         `*[slug.current == "${slug}"]{
+          _id,
           title,
           slug,
           publishedAt,
@@ -90,7 +98,7 @@ const BlogDetails = () => {
       .then((data) => setBlogDetail(data[0]))
       .catch(console.error);
 
-    // Fetch related posts based on the current blog's category (Example: category.title)
+    // Fetch related blogs based on the current blog's category
     if (blogDetail && blogDetail.categories) {
       client
         .fetch(
@@ -107,10 +115,9 @@ const BlogDetails = () => {
   useEffect(() => {
     // Fetch comments for the specific blog post
     if (blogDetail) {
-        console.log("entered if")
         client
             .fetch(
-              `*[_type == "comment" && blog->_ref == "${blogDetail._id}"]{
+              `*[_type == "comment" && blog._ref == "${blogDetail._id}"]{
                 _id,
                 name,
                 email,
@@ -118,10 +125,13 @@ const BlogDetails = () => {
               }`
             )
             .then((data) => {
-              console.log("data", data);
+              console.log(blogDetail._id)
+              data.map(item => console.log(item))
               setComments(data);
+              setIsLoadingComments(false);
             })
             .catch(console.error);
+            setIsLoadingComments(false);
     }
   }, [blogDetail]);
 
@@ -160,8 +170,11 @@ const BlogDetails = () => {
       </form>
 
         <div>
+    <div>
     <h3>Comments:</h3>
-    {comments.length > 0 ? (
+    {isLoadingComments ? (
+      <p>Loading comments...</p> 
+    ) : comments.length > 0 ? (
       <ul>
         {comments.map((comment) => (
           <li key={comment._id}>
@@ -173,6 +186,7 @@ const BlogDetails = () => {
     ) : (
       <p>No comments yet.</p>
     )}
+  </div>
   </div>
 
       <h4>Related Blogs:</h4>
