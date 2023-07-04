@@ -27,6 +27,19 @@ export default defineType({
       options: {
         hotspot: true,
       },
+      fields: [
+        {
+          name: 'hotspots',
+          title: 'Hotspots',
+          type: 'array',
+          of: [hotspotSchema],
+          options: {
+            imageHotspot: {
+              hotspotRadius: 12,
+            },
+          },
+        },
+      ],
     }),
     defineField({
       name: 'categories',
@@ -60,17 +73,6 @@ export default defineType({
       name: 'bodySection2',
       title: 'BodySection2',
       type: 'blockContent',
-    }),
-    defineField({
-      name: 'hotspots',
-      title: 'Hotspots',
-      type: 'array',
-      of: [hotspotSchema],
-      options: {
-        imageHotspot: {
-          imagePath: 'mainImage',
-        },
-      },
     }),
   ],
 
