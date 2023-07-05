@@ -6,6 +6,12 @@ export default defineType({
   type: 'document',
   fields: [
     defineField({
+      name: 'layout',
+      title: 'Layout',
+      type: 'string',
+      default: 'grid',
+    }),
+    defineField({
       name: 'title',
       title: 'Title',
       type: 'string',
