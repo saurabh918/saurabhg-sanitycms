@@ -12,12 +12,31 @@ const Blogs = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const query = `*[_type == "blog"]{
+        let query;
+        query = `*[_type == "blog"]{
           "title": title.${currentLanguage},
           "slug": slug.current,
           "author": author->name,
           "mainImage": mainImage.asset->url
         }`;
+
+        if (selectedCategory) {
+          query = `*[_type == "blog" && (categories._ref == "${selectedCategory}")]{
+            "title": title.${currentLanguage},
+            "slug": slug.current,
+            "author": author->name,
+            "mainImage": mainImage.asset->url
+          }`;
+        }
+
+        if(searchQuery) {
+          query = `*[_type == "blog" && (title.${currentLanguage} match "${searchQuery}*")]{
+            "title": title.${currentLanguage},
+            "slug": slug.current,
+            "author": author->name,
+            "mainImage": mainImage.asset->url
+          }`;
+        }
         
         const result = await client.fetch(query);
         setBlogs(result);
@@ -27,7 +46,7 @@ const Blogs = () => {
     };
 
     fetchData();
-  }, [currentLanguage]);
+  }, [selectedCategory,searchQuery,currentLanguage]);
 
   useEffect(() => {
     const fetchCategories = async () => {
