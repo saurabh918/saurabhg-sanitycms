@@ -20,6 +20,7 @@ const BlogDetails = () => {
   const [content, setContent] = useState('');
   const [comments, setComments] = useState([]);
   const [isLoadingComments, setIsLoadingComments] = useState(true);
+  const [currentLanguage, setCurrentLanguage] = useState('en');
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -31,6 +32,10 @@ const BlogDetails = () => {
 
   const handleContentChange = (e) => {
     setContent(e.target.value);
+  };
+
+  const handleLanguageChange = (language) => {
+    setCurrentLanguage(language);
   };
 
   const handleCommentSubmit = (e) => {
@@ -139,70 +144,75 @@ const BlogDetails = () => {
 
   return (
     <>
-      <h2>{blogDetail.title}</h2>
-      <div className='blog-info'>
-        <img src={blogDetail.mainImage.asset.url} width="500px" height="300px" alt={blogDetail.title} />
-        <BlockContent blocks={blogDetail.body} projectId="xkq07yg2" dataset="production"/>
+      <div className="language-buttons">
+        <h2>Language:</h2>
+        <button onClick={() => handleLanguageChange('en')}>English</button>
+        <button onClick={() => handleLanguageChange('fr')}>French</button>
       </div>
-      <BlockContent blocks={blogDetail.bodySection2} projectId="xkq07yg2" dataset="production" />
-      <h3>{new Date(blogDetail.publishedAt).toLocaleString()}</h3>
-
-      <div>
+      <h2 className="blog-title">{blogDetail.title[currentLanguage]}</h2>
+      <div className='blog-info'>
+        <img src={blogDetail.mainImage.asset.url} alt={blogDetail.title[currentLanguage]} />
+        <BlockContent blocks={blogDetail.body[currentLanguage]} projectId="xkq07yg2" dataset="production"/>
+      </div>
+      <BlockContent blocks={blogDetail.bodySection2[currentLanguage]} projectId="xkq07yg2" dataset="production" />
+      <h3 className="blog-date">{new Date(blogDetail.publishedAt).toLocaleString()}</h3>
+  
+      <div className="share-buttons">
         <h3>Share the blog:</h3>
         <TwitterShareButton url={blogUrl}>
           <FaTwitter size={32} />
         </TwitterShareButton>
-
+  
         <FacebookShareButton url={blogUrl}>
           <FaFacebook size={32} />
         </FacebookShareButton>
-
+  
         <LinkedinShareButton url={blogUrl}>
           <FaLinkedin size={32} />
-        </LinkedinShareButton>
-      </div>
-
-      <form onSubmit={handleCommentSubmit}>
-        <input type="text" value={name} onChange={handleNameChange} placeholder="Your Name" required />
-        <input type="email" value={email} onChange={handleEmailChange} placeholder="Your Email" required />
-        <textarea value={content} onChange={handleContentChange} placeholder="Your Comment" required></textarea>
-        <button type="submit">Submit Comment</button>
-      </form>
-
-        <div>
-    <div>
-    <h3>Comments:</h3>
-    {isLoadingComments ? (
-      <p>Loading comments...</p> 
-    ) : comments.length > 0 ? (
-      <ul>
-        {comments.map((comment) => (
-          <li key={comment._id}>
-            <h4>{comment.name}</h4>
-            <p>{comment.content}</p>
-          </li>
-        ))}
-      </ul>
-    ) : (
-      <p>No comments yet.</p>
-    )}
-  </div>
-  </div>
-
-      <h4>Related Blogs:</h4>
-      {relatedPosts.length > 0 ? (
-        <ul>
-          {relatedPosts.map((post) => (
-            <li key={post.slug.current}>
-              <a href={`/blog-details/${post.slug.current}`}>{post.title}</a>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No related blogs found.</p>
-      )}
-    </>
-  );
+          </LinkedinShareButton>
+        </div>
+  
+        <form onSubmit={handleCommentSubmit} className="comment-form">
+          <input type="text" value={name} onChange={handleNameChange} placeholder="Your Name" required />
+          <input type="email" value={email} onChange={handleEmailChange} placeholder="Your Email" required />
+          <textarea value={content} onChange={handleContentChange} placeholder="Your Comment" required></textarea>
+          <button type="submit">Submit Comment</button>
+        </form>
+  
+        <div className="comments-section">
+          <div>
+            <h3>Comments:</h3>
+            {isLoadingComments ? (
+              <p>Loading comments...</p> 
+            ) : comments.length > 0 ? (
+              <ul>
+                {comments.map((comment) => (
+                  <li key={comment._id}>
+                    <h4>{comment.name}</h4>
+                    <p>{comment.content}</p>
+                  </li>
+                ))}
+              </ul>
+            ) : (
+              <p>No comments yet.</p>
+            )}
+          </div>
+        </div>
+  
+        <h4>Related Blogs:</h4>
+        {relatedPosts.length > 0 ? (
+          <ul>
+            {relatedPosts.map((post) => (
+              <li key={post.slug.current}>
+                <a href={`/blog-details/${post.slug.current}`}>{post.title}</a>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>No related blogs found.</p>
+        )}
+      </>
+    );
 };
 
 export default BlogDetails;
