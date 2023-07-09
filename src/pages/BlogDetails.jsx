@@ -115,7 +115,7 @@ const BlogDetails = () => {
         .then((data) => setRelatedPosts(data))
         .catch(console.error);
     }
-  }, [blogDetail,slug]);
+  }, [slug]);
 
   useEffect(() => {
     // Fetch comments for the specific blog post
