@@ -3,7 +3,7 @@ import SanityClient from '@sanity/client';
 import BlockContent from '@sanity/block-content-to-react';
 import { useParams } from 'react-router-dom';
 import { TwitterShareButton, FacebookShareButton, LinkedinShareButton } from 'react-share';
-import { FaTwitter, FaFacebook, FaLinkedin } from 'react-icons/fa';
+import { FaTwitter, FaFacebook, FaLinkedin, FaInfoCircle } from 'react-icons/fa';
 
 const client = SanityClient({
   projectId: 'xkq07yg2',
@@ -21,6 +21,7 @@ const BlogDetails = () => {
   const [comments, setComments] = useState([]);
   const [isLoadingComments, setIsLoadingComments] = useState(true);
   const [currentLanguage, setCurrentLanguage] = useState('en');
+  const [activeHotspot, setActiveHotspot] = useState(null);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -94,6 +95,7 @@ const BlogDetails = () => {
               _id,
               url
             },
+            hotspots
           },
           categories->{
             title
@@ -141,6 +143,7 @@ const BlogDetails = () => {
   }, [blogDetail]);
 
   if (!blogDetail) return <div>Loading...</div>;
+  
 
   return (
     <>
@@ -151,7 +154,31 @@ const BlogDetails = () => {
       </div>
       <h2 className="blog-title">{blogDetail.title[currentLanguage]}</h2>
       <div className='blog-info'>
-        <img src={blogDetail.mainImage.asset.url} alt={blogDetail.title[currentLanguage]} />
+      <img src={blogDetail.mainImage.asset.url} alt={blogDetail.title[currentLanguage]} />
+      {blogDetail.mainImage.hotspots && blogDetail.mainImage.hotspots.length > 0 && (
+  <>
+    {blogDetail.mainImage.hotspots.map((hotspot, index) => (
+      <React.Fragment key={index}>
+        <div
+          className={`hotspot ${activeHotspot === index ? 'active' : ''}`}
+          style={{
+            top: `${hotspot.y}%`,
+            left: `${hotspot.x}%`,
+            width: `${hotspot.width}%`,
+            height: `${hotspot.height}%`,
+          }}
+          onClick={() => setActiveHotspot(index)}
+        />
+        {activeHotspot === index && (
+          <div className="hotspot-details">
+            <FaInfoCircle className="info-icon" />
+            <p>{hotspot.details}</p>
+          </div>
+        )}
+      </React.Fragment>
+    ))}
+  </>
+)}
         <BlockContent blocks={blogDetail.body[currentLanguage]} projectId="xkq07yg2" dataset="production"/>
       </div>
       <BlockContent blocks={blogDetail.bodySection2[currentLanguage]} projectId="xkq07yg2" dataset="production" />
