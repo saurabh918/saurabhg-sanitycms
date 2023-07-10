@@ -3,97 +3,76 @@ import client from '../client';
 import { Link } from 'react-router-dom';
 
 const Blogs = () => {
-  const [blogs, setBlogs] = useState(null);
+  const [blogs, setBlogs] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
-  const [categories,setCategories] = useState(null)
+  const [categories, setCategories] = useState([]);
+  const [currentLanguage, setCurrentLanguage] = useState('en');
 
-  console.log("blogs",blogs, "selectedCategory",selectedCategory,"searchQuery",searchQuery,"categories",categories)
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        let query;
+        query = `*[_type == "blog"]{
+          "title": title.${currentLanguage},
+          "slug": slug.current,
+          "author": author->name,
+          "mainImage": mainImage.asset->url
+        }`;
+
+        if (selectedCategory) {
+          query = `*[_type == "blog" && (categories._ref == "${selectedCategory}")]{
+            "title": title.${currentLanguage},
+            "slug": slug.current,
+            "author": author->name,
+            "mainImage": mainImage.asset->url
+          }`;
+        }
+
+        if(searchQuery) {
+          query = `*[_type == "blog" && (title.${currentLanguage} match "${searchQuery}*")]{
+            "title": title.${currentLanguage},
+            "slug": slug.current,
+            "author": author->name,
+            "mainImage": mainImage.asset->url
+          }`;
+        }
+        
+        const result = await client.fetch(query);
+        setBlogs(result);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchData();
+  }, [selectedCategory,searchQuery,currentLanguage]);
+
+  useEffect(() => {
+    const fetchCategories = async () => {
+      try {
+        const query = `*[_type == "category"]{
+          title
+        }`;
+        
+        const result = await client.fetch(query);
+        setCategories(result);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
 
   const handleSearch = (event) => {
     setSearchQuery(event.target.value);
-    setSelectedCategory(null)
+    setSelectedCategory(null);
   };
 
-  useEffect(() => {
-    let query = `*[_type == "blog"]{
-      title,
-      slug,
-      publishedAt,
-      body,
-      categories->{
-        title
-      },
-      author->{
-        _id,
-        name
-      },
-      mainImage{
-        asset->{
-          _id,
-          url
-        },
-      },
-    }`;
-
-    if (selectedCategory) {
-      query = `*[_type == "blog" && categories._ref == "${selectedCategory}"]{
-        title,
-        slug,
-        publishedAt,
-        body,
-        categories->{
-          title
-        },
-        author->{
-          name
-        },
-        mainImage{
-          asset->{
-            _id,
-            url
-          },
-        },
-      }`;
-    }
-
-    if(searchQuery) {
-       query = `*[_type == "blog" && (title match "${searchQuery}*" || body match "${searchQuery}*")]{
-        title,
-        slug,
-        publishedAt,
-        body,
-        categories->{
-          name
-        },
-        author->{
-          title
-        },
-
-        mainImage{
-          asset->{
-            _id,
-            url
-          },
-        },
-      }`;
-    }
-  
-      client
-        .fetch(query)
-        .then((data) => setBlogs(data))
-        .catch(console.error);
-    
-  }, [selectedCategory,searchQuery]);
-
-  useEffect(() => {
-    client
-      .fetch(`*[_type == "category"]`)
-      .then((data) => setCategories(data))
-      .catch(console.error);
-  }, []);
-
-  console.log(categories);
+  const handleLanguageChange = (language) => {
+    setCurrentLanguage(language);
+  };
 
   return (
     <div>
@@ -102,27 +81,29 @@ const Blogs = () => {
         <input type="text" value={searchQuery} onChange={handleSearch} placeholder="Search" />
         <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
           <option value="">All Categories</option>
-          {categories && categories.map((category) => (
-            <option key={category._id} value={category._id}>
+          {categories.map((category, index) => (
+            <option key={index} value={category.title}>
               {category.title}
             </option>
           ))}
         </select>
       </div>
-      <ul className='blog-list'>
-        {blogs &&
-          blogs.map((blog) => (
-            <li key={blog.slug.current}>
-              <h2>{blog.title}</h2>
-              { blog.mainImage.asset.url && <img src={blog.mainImage.asset.url} alt={blog.title} width='300px' height='200px' />}
-              {blog.categories && <h3 key={blog.categories._ref}>Category: {blog.categories.title}</h3>
-              }
-               {blog.author &&  <p>Published by: <Link to={`/author/${blog.author._id}`}>{blog.author.name}</Link></p>}
-              <Link to={`/blog-details/${blog.slug.current}`}>
-                <button className='view-details'>View Details</button>
-              </Link>
-            </li>
-          ))}
+      <div className="language-buttons">
+        <h2>Language:</h2>
+        <button onClick={() => handleLanguageChange('en')}>English</button>
+        <button onClick={() => handleLanguageChange('fr')}>French</button>
+      </div>
+      <ul className="blog-list">
+        {blogs.map((blog, index) => (
+          <li key={index}>
+            <h2>{blog.title}</h2>
+            {blog.mainImage && <img src={blog.mainImage} alt={blog.title} width='300px' height='200px' />}
+            {blog.author && <p>Published by: {blog.author}</p>}
+            <Link to={`/blog-details/${blog.slug}`}>
+              <button className='view-details'>View Details</button>
+            </Link>
+          </li>
+        ))}
       </ul>
       <Link to="/blog-form">
         <button>Add your blog</button>
