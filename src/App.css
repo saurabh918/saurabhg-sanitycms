@@ -107,32 +107,6 @@ footer .wrapper {
   cursor: pointer;
 }
 
-.blog-title {
-  font-size: 24px;
-  margin-bottom: 10px;
-}
-
-.blog-info {
-  margin-bottom: 20px;
-}
-
-.blog-info img {
-  width: 100%;
-  max-width: 500px;
-  height: auto;
-  margin-bottom: 10px;
-}
-
-.blog-content {
-  line-height: 1.5;
-  margin-bottom: 20px;
-}
-
-.blog-date {
-  font-size: 14px;
-  color: #888;
-}
-
 .share-buttons {
   margin-bottom: 20px;
 }
