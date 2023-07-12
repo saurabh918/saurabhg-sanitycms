@@ -24,6 +24,18 @@ export default defineType({
       ],
     }),
     defineField({
+      name: 'header',
+      title: 'Header',
+      type: 'reference',
+      to: [{ type: 'header' }]
+    }),
+    defineField({
+      name: 'footer',
+      title: 'Footer',
+      type: 'reference',
+      to: [{ type: 'footer' }]
+    }),
+    defineField({
       name: 'slug',
       title: 'Slug',
       type: 'slug',

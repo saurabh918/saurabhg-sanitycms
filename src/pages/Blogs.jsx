@@ -76,6 +76,7 @@ const Blogs = () => {
 
   return (
     <div>
+       
       <div>
         <h2>Filter by Category:</h2>
         <input type="text" value={searchQuery} onChange={handleSearch} placeholder="Search" />

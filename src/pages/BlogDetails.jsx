@@ -105,7 +105,7 @@ const BlogDetails = () => {
               _id,
               url
             },
-            hotspots
+            hotspots 
           },
           categories->{
             title
@@ -189,7 +189,7 @@ const BlogDetails = () => {
                   <p>{hotspot.content}</p>
                 )}
                 {hotspot.type === 'image' && hotspot.image && (
-                  <img src={hotspot.image.asset.url} alt="Hotspot" />
+                  <img src={hotspot?.image?.asset?.url} alt="Hotspot" />
                 )}
                 {hotspot.type === 'video' && (
                   <video src={hotspot.video.asset.url} controls />
