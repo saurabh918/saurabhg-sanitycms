@@ -39,6 +39,16 @@ const BlogDetails = () => {
     setCurrentLanguage(language);
   };
 
+  const setHotspotDetails = (index) => {
+    if(activeHotspot === null) {
+      console.log("null")
+      setActiveHotspot(index)
+      return
+    }
+    setActiveHotspot(null)
+    
+  }
+
   const handleCommentSubmit = (e) => {
     e.preventDefault();
 
@@ -153,32 +163,47 @@ const BlogDetails = () => {
         <button onClick={() => handleLanguageChange('fr')}>French</button>
       </div>
       <h2 className="blog-title">{blogDetail.title[currentLanguage]}</h2>
-      <div className='blog-info'>
-      <img src={blogDetail.mainImage.asset.url} alt={blogDetail.title[currentLanguage]} />
-      {blogDetail.mainImage.hotspots && blogDetail.mainImage.hotspots.length > 0 && (
-  <>
-    {blogDetail.mainImage.hotspots.map((hotspot, index) => (
-      <React.Fragment key={index}>
-        <div
-          className={`hotspot ${activeHotspot === index ? 'active' : ''}`}
-          style={{
-            top: `${hotspot.y}%`,
-            left: `${hotspot.x}%`,
-            width: `${hotspot.width}%`,
-            height: `${hotspot.height}%`,
-          }}
-          onClick={() => setActiveHotspot(index)}
-        />
-        {activeHotspot === index && (
-          <div className="hotspot-details">
-            <FaInfoCircle className="info-icon" />
-            <p>{hotspot.details}</p>
-          </div>
-        )}
-      </React.Fragment>
-    ))}
-  </>
-)}
+      <div className="blog-info">
+  <div className="blog-image">
+    <img src={blogDetail.mainImage.asset.url} alt={blogDetail.title[currentLanguage]} />
+    {blogDetail.mainImage.hotspots && blogDetail.mainImage.hotspots.length > 0 && (
+      <>
+        {blogDetail.mainImage.hotspots.map((hotspot, index) => {
+          console.log('Hotspot:', hotspot.image);
+          return (
+          <React.Fragment key={index}>
+            <div
+              className={`hotspot ${activeHotspot === index ? 'active' : ''}`}
+              style={{
+                top: `${hotspot.y}px`,
+                left: `${hotspot.x}px`,
+                width: `${hotspot.width}px`,
+                height: `${hotspot.height}px`,
+              }}
+              onClick={() => setHotspotDetails(index)}
+            />
+            {activeHotspot === index && (
+              <div className="hotspot-details">
+                <FaInfoCircle className="info-icon" />
+                {hotspot.type === 'text' && (
+                  <p>{hotspot.content}</p>
+                )}
+                {hotspot.type === 'image' && hotspot.image && (
+                  <img src={hotspot.image.asset.url} alt="Hotspot Image" />
+                )}
+                {hotspot.type === 'video' && (
+                  <video src={hotspot.video.asset.url} controls />
+                )}
+                {hotspot.type === 'link' && (
+                  <a href={hotspot.link} target="_blank" rel="noopener noreferrer">Link</a>
+                )}
+              </div>
+            )}
+          </React.Fragment>
+        )})}
+      </>
+    )}
+  </div>
         <BlockContent blocks={blogDetail.body[currentLanguage]} projectId="xkq07yg2" dataset="production"/>
       </div>
       <BlockContent blocks={blogDetail.bodySection2[currentLanguage]} projectId="xkq07yg2" dataset="production" />
