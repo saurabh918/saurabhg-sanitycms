@@ -189,7 +189,7 @@ const BlogDetails = () => {
                   <p>{hotspot.content}</p>
                 )}
                 {hotspot.type === 'image' && hotspot.image && (
-                  <img src={hotspot.image.asset.url} alt="Hotspot Image" />
+                  <img src={hotspot.image.asset.url} alt="Hotspot" />
                 )}
                 {hotspot.type === 'video' && (
                   <video src={hotspot.video.asset.url} controls />
