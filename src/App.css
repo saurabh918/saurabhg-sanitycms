@@ -102,8 +102,8 @@ footer .wrapper {
   padding: 6px 10px;
   border: none;
   border-radius: 4px;
-  background-color: #f1f1f1;
-  color: #333;
+  background-color: #000;
+  color: #fff;
   cursor: pointer;
 }
 
@@ -172,6 +172,97 @@ footer .wrapper {
 
 .comments-section p {
   margin: 0;
+}
+
+.header-container {
+  background-color: #f2f2f2;
+  color: #333;
+  display: flex;
+  align-items: center;
+  column-gap: 5%;
+  padding: 30px;
+}
+
+.logo {
+  width: 50px;
+  height: 50px;
+}
+
+.logo img {
+  width: 100%;
+}
+
+.menu-items {
+  list-style: none;
+  display: flex;
+  gap: 10px;
+}
+
+.phone-email {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  column-gap: 10px;
+}
+
+.phone-email svg {
+  color: #000;
+}
+
+.phone-email a {
+  color: #000;
+}
+
+.footer-container {
+  background-color: #000;
+  color: #555;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-top {
+  display: flex;
+  justify-content: space-around;
+}
+
+.footer-bottom {
+  display: flex;
+  justify-content: center;
+  color: #fff;
+}
+
+footer ul {
+  list-style: none;
+  padding: 0;
+}
+
+.links {
+  margin-bottom: 10px;
+}
+
+.social-media {
+  display: flex;
+  column-gap: 30px;
+  margin-bottom: 10px;
+}
+
+.social-media li a {
+  color: #dc143c;
+}
+
+.social-media li a:hover {
+  color: #fff;
+}
+
+.address {
+  margin-bottom: 10px;
+  color: #fff;
+}
+
+.newsletter {
+  color: #fff;
+  font-style: italic;
 }
 
 

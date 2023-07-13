@@ -1,7 +1,11 @@
 import { BrowserRouter } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import RoutesComponent from './routes/Routes';
+import { AiOutlinePhone, AiOutlineMail } from 'react-icons/ai';
+import { FaFacebook, FaTwitter } from 'react-icons/fa';
+
 import client from './client';
+
 import './App.css';
 
 function App() {
@@ -13,7 +17,7 @@ useEffect(() => {
     try {
       const query = `*[_type == "header"]{
         'logo':logo.asset->url,
-        'menuItems': menuItems[]->,
+        menuItems,
         phoneNumber,
         email
       }[0]`;
@@ -54,10 +58,12 @@ useEffect(() => {
   return (
     <BrowserRouter>
       {headerData && (
-        <header>
+        <header className="header-container">
+          <a className="logo" href='/'>
           <img src={headerData.logo} alt="Logo" />
-          {/* {headerData.menuItems && headerData.menuItems.length > 0 ? (
-            <ul>
+          </a>
+          {headerData.menuItems && headerData.menuItems.length > 0 ? (
+            <ul className="menu-items">
               {headerData.menuItems.map((menuItem) => (
                 <li key={menuItem._key}>
                   {menuItem.url ? (
@@ -70,9 +76,15 @@ useEffect(() => {
             </ul>
           ) : (
             <p>No menu items found.</p>
-          )} */}
-          <p>Phone: {headerData.phoneNumber}</p>
-          <p>Email: {headerData.email}</p>
+          )}
+          <div className="phone-email">
+            <AiOutlinePhone className="phone-icon" />
+            <a href={'tel:'+headerData.phoneNumber} title={headerData.phoneNumber}>{headerData.phoneNumber}</a>
+          </div>
+          <div className="phone-email">
+            <AiOutlineMail className="email-icon" />
+            <a href={'mailto:'+headerData.email} title={headerData.email}>{headerData.email}</a>
+          </div>
         </header>
       )}
       <main>
@@ -81,23 +93,33 @@ useEffect(() => {
         </div>
       </main>
       {footerData && (
-        <footer>
+        <footer className="footer-container">
+          <div className='footer-top'>
           {footerData.links && footerData.links.length > 0 ? (
-            <ul>
+            <ul className="links">
               {footerData.links.map((link, index) => (
                 <li key={index}>{link}</li>
               ))}
             </ul>
           ) : null}
           {footerData.socialMedia && footerData.socialMedia.length > 0 ? (
-            <ul>
-              {footerData.socialMedia.map((socialLink) => (
-                <li key={socialLink._key}>{socialLink.platform}</li>
-              ))}
-            </ul>
+            <ul className="social-media">
+        {footerData.socialMedia.map((socialLink) => (
+          <li key={socialLink._key}>
+            <a href={socialLink.url} title="opens in a new window" rel="noopener noreferrer" target="_blank">
+              {socialLink.platform === 'facebook' && <FaFacebook size={32}/>}
+              {socialLink.platform === 'twitter' && <FaTwitter size={32} />}
+            </a>
+          </li>
+        ))}
+      </ul>
           ) : null}
-          <p>{footerData.address}</p>
-          {footerData.newsletter && <p>Newsletter is enabled</p>}
+          <p className="address">{footerData.address}</p>
+          {footerData.newsletter && <p className="newsletter">Newsletter is enabled</p>}
+          </div>
+          <div className='footer-bottom'>
+          &copy; {new Date().getFullYear()}. All rights reserved &res;
+          </div>
         </footer>
       )}
     </BrowserRouter>
