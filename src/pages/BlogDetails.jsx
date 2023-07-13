@@ -91,44 +91,47 @@ const BlogDetails = () => {
   const blogUrl = `https://example.com/blog/${slug}`;
 
   useEffect(() => {
-    client
-      .fetch(
-        `*[slug.current == "${slug}"]{
+    const blogQuery = `*[slug.current == "${slug}"]{
+      _id,
+      "title": title.${currentLanguage},
+      slug,
+      publishedAt,
+      "body": body.${currentLanguage},
+      "bodySection2": bodySection2.${currentLanguage},
+      mainImage{
+        asset->{
           _id,
-          title,
-          slug,
-          publishedAt,
-          body,
-          bodySection2,
-          mainImage{
-            asset->{
-              _id,
-              url
-            },
-            hotspots 
-          },
-          categories->{
-            title
-          }
-        }`
-      )
-      .then((data) => setBlogDetail(data[0]))
-      .catch(console.error);
-
-    // Fetch related blogs based on the current blog's category
-    if (blogDetail && blogDetail.categories) {
-      client
-        .fetch(
-          `*[_type == "blog" && categories->title == "${blogDetail.categories.title}" && slug.current != "${slug}"]{
+          url
+        },
+        hotspots
+      },
+      categories->{
+        title
+      }
+    }`;
+  
+    client
+      .fetch(blogQuery)
+      .then((data) => {
+        const blogData = data[0];
+        setBlogDetail(blogData);
+  
+        if (blogData && blogData.categories) {
+          const relatedBlogsQuery = `*[_type == "blog" && categories->title == "${blogData.categories.title}" && slug.current != "${slug}"]{
             title,
             slug
-          }[0...3]` // Fetching up to 3 related posts
-        )
-        .then((data) => setRelatedPosts(data))
-        .catch(console.error);
-    }
-  }, [blogDetail,slug]);
+          }[0...3]`;
+  
+          client
+            .fetch(relatedBlogsQuery)
+            .then((relatedData) => setRelatedPosts(relatedData))
+            .catch(console.error);
+        }
+      })
+      .catch(console.error);
+  }, [slug, currentLanguage]);
 
+  
   useEffect(() => {
     // Fetch comments for the specific blog post
     if (blogDetail) {
@@ -162,10 +165,10 @@ const BlogDetails = () => {
         <button onClick={() => handleLanguageChange('en')}>English</button>
         <button onClick={() => handleLanguageChange('fr')}>French</button>
       </div>
-      <h2 className="blog-title">{blogDetail.title[currentLanguage]}</h2>
+      <h2 className="blog-title">{blogDetail.title}</h2>
       <div className="blog-info">
   <div className="blog-image">
-    <img src={blogDetail.mainImage.asset.url} alt={blogDetail.title[currentLanguage]} />
+    <img src={blogDetail.mainImage.asset.url} alt={blogDetail.title} />
     {blogDetail.mainImage.hotspots && blogDetail.mainImage.hotspots.length > 0 && (
       <>
         {blogDetail.mainImage.hotspots.map((hotspot, index) => {
@@ -204,9 +207,9 @@ const BlogDetails = () => {
       </>
     )}
   </div>
-        <BlockContent blocks={blogDetail.body[currentLanguage]} projectId="xkq07yg2" dataset="production"/>
+        <BlockContent blocks={blogDetail.body} projectId="xkq07yg2" dataset="production"/>
       </div>
-      <BlockContent blocks={blogDetail.bodySection2[currentLanguage]} projectId="xkq07yg2" dataset="production" />
+      <BlockContent blocks={blogDetail.bodySection2} projectId="xkq07yg2" dataset="production" />
       <h3 className="blog-date">{new Date(blogDetail.publishedAt).toLocaleString()}</h3>
   
       <div className="share-buttons">
