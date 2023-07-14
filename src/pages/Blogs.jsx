@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import client from '../client';
 import { Link } from 'react-router-dom';
+import imageUrlBuilder from '@sanity/image-url';
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
@@ -17,7 +18,12 @@ const Blogs = () => {
           "title": title.${currentLanguage},
           "slug": slug.current,
           "author": author->name,
-          "mainImage": mainImage.asset->url
+          "mainImage": mainImage.asset->{
+            url,
+            metadata {
+              dimensions
+            }
+          }
         }`;
 
         if (selectedCategory) {
@@ -25,19 +31,29 @@ const Blogs = () => {
             "title": title.${currentLanguage},
             "slug": slug.current,
             "author": author->name,
-            "mainImage": mainImage.asset->url
+            "mainImage": mainImage.asset->{
+              url,
+              metadata {
+                dimensions
+              }
+            }
           }`;
         }
 
-        if(searchQuery) {
+        if (searchQuery) {
           query = `*[_type == "blog" && (title.${currentLanguage} match "${searchQuery}*")]{
             "title": title.${currentLanguage},
             "slug": slug.current,
             "author": author->name,
-            "mainImage": mainImage.asset->url
+            "mainImage": mainImage.asset->{
+              url,
+              metadata {
+                dimensions
+              }
+            }
           }`;
         }
-        
+
         const result = await client.fetch(query);
         setBlogs(result);
       } catch (error) {
@@ -46,7 +62,7 @@ const Blogs = () => {
     };
 
     fetchData();
-  }, [selectedCategory,searchQuery,currentLanguage]);
+  }, [selectedCategory, searchQuery, currentLanguage]);
 
   useEffect(() => {
     const fetchCategories = async () => {
@@ -54,7 +70,7 @@ const Blogs = () => {
         const query = `*[_type == "category"]{
           title
         }`;
-        
+
         const result = await client.fetch(query);
         setCategories(result);
       } catch (error) {
@@ -74,9 +90,16 @@ const Blogs = () => {
     setCurrentLanguage(language);
   };
 
+  // Create an image builder
+  const builder = imageUrlBuilder(client);
+
+  const buildImageUrl = (source) => {
+    console.log(source)
+    return builder.image(source.url).width(300).height(200).url();
+  };
+
   return (
     <div>
-       
       <div>
         <h2>Filter by Category:</h2>
         <input type="text" value={searchQuery} onChange={handleSearch} placeholder="Search" />
@@ -98,10 +121,12 @@ const Blogs = () => {
         {blogs.map((blog, index) => (
           <li key={index}>
             <h2>{blog.title}</h2>
-            {blog.mainImage && <img src={blog.mainImage} alt={blog.title} width='300px' height='200px' />}
+            {blog.mainImage && (
+              <img src={buildImageUrl(blog.mainImage)} alt={blog.title} width={300} height={200} />
+            )}
             {blog.author && <p>Published by: {blog.author}</p>}
             <Link to={`/blog-details/${blog.slug}`}>
-              <button className='view-details'>View Details</button>
+              <button className="view-details">View Details</button>
             </Link>
           </li>
         ))}
