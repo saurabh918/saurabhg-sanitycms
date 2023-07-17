@@ -74,6 +74,10 @@ footer .wrapper {
   position: relative;
 }
 
+.blog-image img {
+  width: 100%;
+}
+
 .hotspot-details {
   position: absolute;
   top: 50%;
