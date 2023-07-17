@@ -13,11 +13,11 @@ const WebhookDataViewer = () => {
       console.error('Error fetching webhook data:', error);
     }
   };
-
+  console.log(webhookData)
   return (
     <div>
       <button onClick={handleWebhook}>Get Webhook Data</button>
-      {webhookData && console.log(webhookData)(
+      {webhookData &&  (
         <pre>
           <code>{(webhookData)}</code>
         </pre>
