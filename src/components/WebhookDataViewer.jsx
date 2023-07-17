@@ -17,9 +17,9 @@ const WebhookDataViewer = () => {
   return (
     <div>
       <button onClick={handleWebhook}>Get Webhook Data</button>
-      {webhookData && (
+      {webhookData && console.log(webhookData)(
         <pre>
-          <code>{(webhookData, null, 2)}</code>
+          <code>{(webhookData)}</code>
         </pre>
       )}
     </div>
