@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const WebhookDataViewer = () => {
   const [webhookData, setWebhookData] = useState(null);
-  const webhookUrl = 'https://sanity-with-react-blogs.netlify.app/'; // Replace with the copied webhook URL
+  const webhookUrl = 'https://sanity-with-react-blogs.netlify.app/blog123'; // Replace with the copied webhook URL
 
   const handleWebhook = async () => {
     try {
