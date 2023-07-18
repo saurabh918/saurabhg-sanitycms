@@ -1,8 +1,8 @@
 import SanityClient from "@sanity/client";
 
 const client = new SanityClient({
-  projectId: process.env.SANITY_STUDIO_PROJECT_ID, 
-  dataset: process.env.SANITY_STUDIO_PROD_DATASET,
+  projectId: "xkq07yg2", 
+  dataset: "production",
 });
 
 export default client
