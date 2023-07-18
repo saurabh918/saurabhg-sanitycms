@@ -122,6 +122,17 @@ export default defineType({
         },
       ],
     }),
+    defineField({
+      name: 'showExtraField',
+      title: 'Show Extra Field',
+      type: 'boolean',
+    }),
+    defineField({
+      name: 'extraText',
+      title: 'Extra Text',
+      type: 'string',
+      hidden: ({ document }) => !document.showExtraField,
+    }),
   ],
 
   preview: {
