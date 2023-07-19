@@ -3,9 +3,10 @@ import {deskTool} from 'sanity/desk'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemas'
 
-export default defineConfig({
+export default defineConfig([{
   name: 'default',
   title: 'My Sanity Project',
+  basePath: '/prod',
 
   projectId: process.env.SANITY_STUDIO_PROJECT_ID,
   dataset: process.env.SANITY_STUDIO_PROD_DATASET,
@@ -38,4 +39,20 @@ export default defineConfig({
   schema: {
     types: schemaTypes,
   },
-})
+},
+{
+  name: 'Staging',
+  title: 'sanity project staging',
+  basePath: '/staging',
+  projectId: process.env.SANITY_STUDIO_PROJECT_ID,
+  dataset: process.env.SANITY_STUDIO_STG_DATASET,
+
+  plugins: [deskTool(), visionTool()],
+
+  schema: {
+    types: schemaTypes,
+  },
+}
+
+
+])
