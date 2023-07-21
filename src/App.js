@@ -121,7 +121,7 @@ useEffect(() => {
           {footerData.newsletter && <p className="newsletter">Newsletter is enabled</p>}
           </div>
           <div className='footer-bottom'>
-          &copy; {new Date().getFullYear()}. All rights reserved &res;
+          &copy; {new Date().getFullYear()}. All rights reserved &reg;
           </div>
           </div>
         </footer>
