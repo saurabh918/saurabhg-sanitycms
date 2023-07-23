@@ -68,7 +68,8 @@ const Blogs = () => {
     const fetchCategories = async () => {
       try {
         const query = `*[_type == "category"]{
-          title
+          title,
+          _id
         }`;
 
         const result = await client.fetch(query);
@@ -105,11 +106,12 @@ const Blogs = () => {
         <input type="text" value={searchQuery} onChange={handleSearch} placeholder="Search" />
         <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
           <option value="">All Categories</option>
-          {categories.map((category) => (
+          {categories.map((category) => {
+            return (
             <option key={category._id} value={category._id}>
               {category.title}
             </option>
-          ))}
+          )})}
         </select>
       </div>
       <div className="language-buttons">
