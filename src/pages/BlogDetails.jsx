@@ -257,9 +257,9 @@ const BlogDetails = () => {
         <h4>Related Blogs:</h4>
         {relatedPosts.length > 0 ? (
           <ul>
-            {relatedPosts.map((post) => (
-              <li key={post.slug.current}>
-                <a href={`/blog-details/${post.slug.current}`}>{post.title}</a>
+            {relatedPosts.map((blog) => (
+              <li key={blog.slug.current}>
+                <a href={`/blog-details/${blog.slug.current}`}>{blog.title.currentLanguage}</a>
               </li>
             ))}
           </ul>
