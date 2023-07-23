@@ -105,8 +105,8 @@ const Blogs = () => {
         <input type="text" value={searchQuery} onChange={handleSearch} placeholder="Search" />
         <select value={selectedCategory} onChange={(e) => setSelectedCategory(e.target.value)}>
           <option value="">All Categories</option>
-          {categories.map((category, index) => (
-            <option key={index} value={category.title}>
+          {categories.map((category) => (
+            <option key={category._id} value={category._id}>
               {category.title}
             </option>
           ))}

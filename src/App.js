@@ -59,6 +59,7 @@ useEffect(() => {
     <BrowserRouter>
       {headerData && (
         <header className="header-container">
+          <div className="wrapper">
           <a className="logo" href='/'>
           <img src={headerData.logo} alt="Logo" />
           </a>
@@ -85,6 +86,7 @@ useEffect(() => {
             <AiOutlineMail className="email-icon" />
             <a href={'mailto:'+headerData.email} title={headerData.email}>{headerData.email}</a>
           </div>
+          </div>
         </header>
       )}
       <main>
@@ -94,6 +96,7 @@ useEffect(() => {
       </main>
       {footerData && (
         <footer className="footer-container">
+          <div className="wrapper">
           <div className='footer-top'>
           {footerData.links && footerData.links.length > 0 ? (
             <ul className="links">
@@ -118,7 +121,8 @@ useEffect(() => {
           {footerData.newsletter && <p className="newsletter">Newsletter is enabled</p>}
           </div>
           <div className='footer-bottom'>
-          &copy; {new Date().getFullYear()}. All rights reserved &res;
+          &copy; {new Date().getFullYear()}. All rights reserved &reg;
+          </div>
           </div>
         </footer>
       )}

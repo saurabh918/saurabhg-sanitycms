@@ -180,6 +180,9 @@ footer .wrapper {
 
 .header-container {
   background-color: #f2f2f2;
+}
+
+.header-container .wrapper {
   color: #333;
   display: flex;
   align-items: center;
@@ -277,5 +280,16 @@ footer ul {
 
   .blog-info img {
     width: auto;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .header-container .wrapper {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .social-media {
+    column-gap: 15px;
   }
 }
