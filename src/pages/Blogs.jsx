@@ -68,6 +68,7 @@ const Blogs = () => {
     const fetchCategories = async () => {
       try {
         const query = `*[_type == "category"]{
+          _id,
           title
         }`;
 
