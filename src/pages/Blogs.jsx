@@ -15,6 +15,7 @@ const Blogs = () => {
       try {
         let query;
         query = `*[_type == "blog"]{
+          _id,
           "title": title.${currentLanguage},
           "slug": slug.current,
           "author": author->name,
@@ -122,6 +123,7 @@ const Blogs = () => {
         {blogs.map((blog, index) => (
           <li key={index}>
             <h2>{blog.title}</h2>
+            <span>{blog._id}</span>
             {blog.mainImage && (
               <img src={buildImageUrl(blog.mainImage)} alt={blog.title} width={300} height={200} />
             )}
