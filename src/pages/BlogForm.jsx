@@ -112,42 +112,42 @@ const BlogForm = () => {
         });
       }
 
-  const handleFormSubmit = (e) => {
-    e.preventDefault();
+  // const handleFormSubmit = (e) => {
+  //   e.preventDefault();
 
-    const document = {
-      _id: v4(),
-      _type: 'blog',
-      title: {
-        en: titleEn,
-        fr: titleFr,
-      },
-      slug,
-      mainImage,
-      categories,
-      author,
-      publishedAt,
-      body: {
-        en: bodyEn,
-        fr: bodyFr,
-      },
-      bodySection2: {
-        en: bodySection2En,
-        fr: bodySection2Fr,
-      },
-      showExtraField,
-      extraText,
-    };
+  //   const document = {
+  //     _id: v4(),
+  //     _type: 'blog',
+  //     title: {
+  //       en: titleEn,
+  //       fr: titleFr,
+  //     },
+  //     slug,
+  //     mainImage,
+  //     categories,
+  //     author,
+  //     publishedAt,
+  //     body: {
+  //       en: bodyEn,
+  //       fr: bodyFr,
+  //     },
+  //     bodySection2: {
+  //       en: bodySection2En,
+  //       fr: bodySection2Fr,
+  //     },
+  //     showExtraField,
+  //     extraText,
+  //   };
 
-    client
-      .createOrReplace(document)
-      .then((response) => {
-        console.log('Content saved:', response);
-      })
-      .catch((error) => {
-        console.error('Error saving content:', error);
-      });
-  };
+  //   client
+  //     .createOrReplace(document)
+  //     .then((response) => {
+  //       console.log('Content saved:', response);
+  //     })
+  //     .catch((error) => {
+  //       console.error('Error saving content:', error);
+  //     });
+  // };
 
   return (
     <div className='form-container'>
