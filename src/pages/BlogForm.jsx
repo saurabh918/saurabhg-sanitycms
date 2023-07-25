@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { v4 } from 'uuid';
+// import { v4 } from 'uuid';
 import SanityClient from '@sanity/client';
 
 const client = SanityClient({
