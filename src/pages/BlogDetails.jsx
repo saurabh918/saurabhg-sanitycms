@@ -131,6 +131,7 @@ const BlogDetails = () => {
       .catch(console.error);
   }, [slug, currentLanguage]);
 
+  console.log(currentLanguage)
   
   useEffect(() => {
     // Fetch comments for the specific blog post
@@ -257,9 +258,9 @@ const BlogDetails = () => {
         <h4>Related Blogs:</h4>
         {relatedPosts.length > 0 ? (
           <ul>
-            {relatedPosts.map((blog) => (
-              <li key={blog.slug.current}>
-                <a href={`/blog-details/${blog.slug.current}`}>{blog.title.currentLanguage}</a>
+            {relatedPosts.map((blog,i) => (
+              <li key={i}>
+                <a href={`/blog-details/${blog.slug.current}`}>{blog.title[currentLanguage]}</a>
               </li>
             ))}
           </ul>
