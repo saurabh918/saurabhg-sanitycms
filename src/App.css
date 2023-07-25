@@ -287,6 +287,10 @@ footer ul {
 }
 
 @media only screen and (max-width: 768px) {
+  .wrapper {
+    width: 82%;
+  }
+
   .header-container .wrapper {
     flex-direction: column;
     align-items: flex-start;
