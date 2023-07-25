@@ -2,6 +2,7 @@ import {defineConfig} from 'sanity'
 import {deskTool} from 'sanity/desk'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemas'
+import { languageFilter } from '@sanity/language-filter'
 
 export default defineConfig([{
   name: 'default',
@@ -47,7 +48,21 @@ export default defineConfig([{
   projectId: process.env.SANITY_STUDIO_PROJECT_ID,
   dataset: process.env.SANITY_STUDIO_STG_DATASET,
 
-  plugins: [deskTool(), visionTool()],
+  plugins: [deskTool(), visionTool(),
+    languageFilter({
+        supportedLanguages: [
+          {id: 'en', title: 'English'},
+          {id: 'fr', title: 'Spanish'}
+          //...
+        ],
+        // Select Norwegian (Bokmål) by default
+        defaultLanguages: ['en'],
+        // Only show language filter for document type `page` (schemaType.name)
+        documentTypes: ['page'],
+        filterField: (enclosingType, member, selectedLanguageIds) =>
+          !enclosingType.name.startsWith('locale') || selectedLanguageIds.includes(member.name),
+   })
+ ],
 
   schema: {
     types: schemaTypes,
