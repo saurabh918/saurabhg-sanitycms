@@ -73,7 +73,7 @@ footer .wrapper {
   position: relative;
 }
 
-.blog-image img {
+.blog-info .blog-image img {
   width: 100%;
 }
 
@@ -280,6 +280,10 @@ footer ul {
   .blog-info img {
     width: auto;
   }
+
+  ul.blog-list {
+    justify-content: space-between;
+  }
 }
 
 @media only screen and (max-width: 768px) {
@@ -288,7 +292,19 @@ footer ul {
     align-items: flex-start;
   }
 
+  ul {
+    padding-inline-start: 0;
+  }
+
+  ul.blog-list {
+    justify-content: center;
+  }
+
   .social-media {
     column-gap: 15px;
+  }
+
+  .footer-top {
+    flex-wrap: wrap;
   }
 }
