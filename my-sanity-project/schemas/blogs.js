@@ -5,7 +5,22 @@ export default defineType({
   name: 'blog',
   title: 'Blog',
   type: 'document',
+  options: {
+    languageFilter: true
+  },
   fields: [
+    defineField({
+      name: 'language',
+      title: 'Language',
+      type: 'string', 
+      options: {
+        list: [
+          { title: 'English', value: 'en' },
+          { title: 'French', value: 'fr' },
+          // Add more language options as needed
+        ],
+      },
+    }),
     defineField({
       name: 'title',
       title: 'Title',

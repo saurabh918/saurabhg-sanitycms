@@ -7,7 +7,7 @@ import { FaTwitter, FaFacebook, FaLinkedin, FaInfoCircle } from 'react-icons/fa'
 
 const client = SanityClient({
   projectId: 'xkq07yg2',
-  dataset: 'production',
+  dataset: 'staging',
   token: 'sk9RzfvlAbdRkVkzWKYHLiJYHSITFRiXduR9YWF5m9A7VLF9YseSEbJ4XYaWnAuM7kDi5kOLk2L5KEaknVhXGugfCs9GBQi5J0GpTPpgVQOODNEDnWU4I9NLEe6p8OpQyX7nsMUaRV9cajwURn0KggyM0BmOhI5s630iS4tbUddihWf8Xylw',
   // useCdn: true,
 });
@@ -131,6 +131,7 @@ const BlogDetails = () => {
       .catch(console.error);
   }, [slug, currentLanguage]);
 
+  console.log(currentLanguage)
   
   useEffect(() => {
     // Fetch comments for the specific blog post
@@ -257,9 +258,9 @@ const BlogDetails = () => {
         <h4>Related Blogs:</h4>
         {relatedPosts.length > 0 ? (
           <ul>
-            {relatedPosts.map((blog) => (
-              <li key={blog.slug.current}>
-                <a href={`/blog-details/${blog.slug.current}`}>{blog.title.currentLanguage}</a>
+            {relatedPosts.map((blog,i) => (
+              <li key={i}>
+                <a href={`/blog-details/${blog.slug.current}`}>{blog.title[currentLanguage]}</a>
               </li>
             ))}
           </ul>
