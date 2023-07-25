@@ -131,9 +131,6 @@ const Blogs = () => {
           </li>
         ))}
       </ul>
-      <Link to="/blog-form">
-        <button>Add your blog</button>
-      </Link>
     </div>
   );
 };
