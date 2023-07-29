@@ -3,6 +3,7 @@ import {deskTool} from 'sanity/desk'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemas'
 import { languageFilter } from '@sanity/language-filter'
+import {muxInput} from 'sanity-plugin-mux-input'
 
 export default defineConfig([{
   name: 'default',
@@ -35,7 +36,7 @@ export default defineConfig([{
     },
   },
 
-  plugins: [deskTool(), visionTool()],
+  plugins: [deskTool(), visionTool(),muxInput()],
 
   schema: {
     types: schemaTypes,
@@ -48,7 +49,7 @@ export default defineConfig([{
   projectId: process.env.SANITY_STUDIO_PROJECT_ID,
   dataset: process.env.SANITY_STUDIO_STG_DATASET,
 
-  plugins: [deskTool(), visionTool(),
+  plugins: [deskTool(), visionTool(),muxInput(),
     languageFilter({
         supportedLanguages: [
           {id: 'en', title: 'English'},

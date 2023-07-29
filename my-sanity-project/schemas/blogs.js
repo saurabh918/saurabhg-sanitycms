@@ -143,10 +143,28 @@ export default defineType({
       type: 'boolean',
     }),
     defineField({
-      name: 'extraText',
-      title: 'Extra Text',
-      type: 'string',
-      hidden: ({ document }) => !document.showExtraField,
+      name: 'extraContent',
+      title: 'Extra Content',
+      type: 'object',
+      fields: [
+        {
+          name: 'showImage',
+          title: 'Add video instead of image',
+          type: 'boolean',
+        },
+        {
+          name: 'addImage',
+          title: 'Add Image',
+          type: 'image',
+          hidden: ({ parent }) => parent?.showImage,
+        },
+        {
+          name: 'addVideo',
+          title: 'Add Video',
+          type: 'mux.video',
+          hidden: ({ parent }) => !parent?.showImage,
+        },
+      ],
     }),
   ],
 
