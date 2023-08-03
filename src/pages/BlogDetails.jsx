@@ -7,7 +7,7 @@ import { FaTwitter, FaFacebook, FaLinkedin, FaInfoCircle } from 'react-icons/fa'
 
 const client = SanityClient({
   projectId: 'xkq07yg2',
-  dataset: 'staging',
+  dataset: 'production',
   token: 'sk9RzfvlAbdRkVkzWKYHLiJYHSITFRiXduR9YWF5m9A7VLF9YseSEbJ4XYaWnAuM7kDi5kOLk2L5KEaknVhXGugfCs9GBQi5J0GpTPpgVQOODNEDnWU4I9NLEe6p8OpQyX7nsMUaRV9cajwURn0KggyM0BmOhI5s630iS4tbUddihWf8Xylw',
   // useCdn: true,
 });
