@@ -29,7 +29,7 @@ export default defineConfig([{
         params.set('preview', 'true')
         params.set('dataset', dataset)
 
-        return `https://sanity-project-2023.sanity.studio/desk/blog/${slug}?${params}`
+        return `https://sanity-project-2023.sanity.studio/prod/desk/blog/${slug}?${params}`
       }
 
       return prev
